@@ -124,11 +124,11 @@ namespace ALE_Ownership_Logger.Patch {
                     string causePlayerName = PlayerUtils.GetPlayerNameById(causeId);
                     string causeFactionTag = PlayerUtils.GetFactionTagStringForPlayer(causeId);
 
-                    causeName = (causePlayerName + " " + causeOnlineString + causeFactionTag).PadRight(25) + " with " + cause.ChangingCause;
+                    causeName = (causePlayerName + "," + causeId + "," + causeOnlineString + causeFactionTag) + ",with," + cause.ChangingCause;
                 
                 } else {
 
-                    causeName = "Planet".PadRight(25) + " with " + cause.ChangingCause;
+                    causeName = "Planet"+ ",with," + cause.ChangingCause;
                 }
             }
 
@@ -138,7 +138,7 @@ namespace ALE_Ownership_Logger.Patch {
 
             string location = GetLocationWhenNeeded(block);
 
-            Log.Info(causeName.PadRight(45) + " destroyed block        " + blockpairName.PadRight(20) + " from " + oldName.PadRight(25) + "    " + "".PadRight(20) + " of grid: " + gridName + location);
+            Log.Info("[DAMAGE]," + causeName + ",destroyed block," + blockpairName + ",from," + oldName + "," + ",of grid," + gridName + location);
         }
 
         public static bool PatchChangeOwnerRequest(
@@ -195,11 +195,11 @@ namespace ALE_Ownership_Logger.Patch {
                     string causePlayerName = PlayerUtils.GetPlayerNameById(causeId);
                     string causeFactionTag = PlayerUtils.GetFactionTagStringForPlayer(causeId);
 
-                    causeName = (causePlayerName + " " + causeOnlineString + causeFactionTag).PadRight(25) + " with " + cause.ChangingCause;
+                    causeName = (causePlayerName + " " + causeOnlineString + causeFactionTag) + ",with," + cause.ChangingCause;
 
                 } else {
 
-                    causeName = "Planet".PadRight(25) + " with " + cause.ChangingCause;
+                    causeName = "Planet" + ",with," + cause.ChangingCause;
                 }
 
             } else if(playerId != 0L) {
@@ -220,7 +220,7 @@ namespace ALE_Ownership_Logger.Patch {
 
             string location = GetLocationWhenNeeded(block);
 
-            Log.Info(causeName.PadRight(45) + " changed owner on block " + blockpairName.PadRight(20) + " from " + oldName.PadRight(25) + " to " + newName.PadRight(20) + " on grid: " + gridName + location);
+            Log.Info("[CHANGEOWNERSHIP]," + causeName + ",changed owner on block," + blockpairName + ",from " + oldName + "," + block.OwnerId + ",to," + newName + "," + playerId + ", on grid," + gridName + location);
 
             return true;
         }
@@ -301,12 +301,12 @@ namespace ALE_Ownership_Logger.Patch {
                 /* Opening statement */
                 if (first) {
 
-                    sb.AppendLine("Player " + resquesterName + " " + requestFactionTag + " requested the following ownership changes on grid: '" + gridName+ "'");
+                    sb.AppendLine("[BATCHCHANGEOWNERSHIP]," + resquesterName + "," + requestFactionTag + ",requested the following ownership changes on grid,'" + gridName+ "'");
 
                     first = false;
                 }
 
-                sb.AppendLine("   block " + block.BlockDefinition.BlockPairName.PadRight(20) + " from " + oldName.PadRight(25) + " to " + newName.PadRight(20) + location);
+                sb.AppendLine(",block," + block.BlockDefinition.BlockPairName + ",from," + oldName + ",to," + newName + location);
             }
 
             Log.Info(sb);
